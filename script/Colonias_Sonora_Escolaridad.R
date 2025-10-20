@@ -106,7 +106,7 @@ colonias_estatal <- censoagebsonora2020 %>%
             gratot=sum(gratot),
             vivtot=sum(vivtot)
   ) %>% 
-  mutate(p_menos18=pobtot-p_18ymas,
+  mutate(p_menos18=if_else(p_18ymas!=0, pobtot-p_18ymas,0),
          p_18a59=p_18ymas-p_60ymas) %>% 
   mutate(graproes=round(gratot/p_15ymas,1)) %>% 
   filter(cve_col!=0) %>% 
@@ -116,8 +116,15 @@ colonias_estatal <- censoagebsonora2020 %>%
          adultos_nmay=round(p_18a59*100/pobtot,1),
          adultos_may=round(p_60ymas*100/pobtot,1)) %>% 
   mutate(pobtot_pretty= prettyNum(pobtot, big.mark=",",scientific=FALSE),
-         vivtot_pretty= prettyNum(vivtot, big.mark=",",scientific=FALSE)) %>% 
-  select(cve_col, nom_col,nom_loc, vivtot,pobtot, mujeres, hombres, menores, adultos_nmay, adultos_may, graproes,pobtot_pretty,vivtot_pretty)
+         vivtot_pretty= prettyNum(vivtot, big.mark=",",scientific=FALSE),
+         agregado=mujeres+hombres) %>% 
+  mutate(hombres=as.character(if_else(agregado==0, "N/D", paste0(hombres,"%"))),
+         mujeres=as.character(if_else(agregado==0, "N/D", paste0(mujeres,"%"))),
+         menores=as.character(if_else(agregado==0, "N/D", paste0(menores,"%"))),
+         adultos_nmay=as.character(if_else(agregado==0, "N/D", paste0(adultos_nmay,"%"))),
+         adultos_may=as.character(if_else(agregado==0, "N/D", paste0(adultos_may,"%")))
+         ) %>% 
+  select(cve_col, nom_col,nom_loc, vivtot,pobtot, mujeres, hombres, menores, adultos_nmay, adultos_may, graproes,pobtot_pretty,vivtot_pretty, agregado)
 
 
 
@@ -153,6 +160,8 @@ capa_col_info_2020 <- capa_col %>%
                            graproes>=13 & graproes<15 ~ "#6fc0ba",
                            graproes>=15 & graproes<18 ~ "#368990",
                            graproes>=18  ~ "#376795")
+         ) %>% 
+           mutate(graproes=as.character(if_else(agregado==0, "N/D", paste0(graproes," años")))
   )
 
 
@@ -161,12 +170,12 @@ capa_col_info_2020$popup <- glue::glue(
   <br><strong>COL. {capa_col_info_2020$nom_col}</strong>
   <br><strong>Viviendas totales: </strong>{capa_col_info_2020$vivtot_pretty}
   <br><strong>Habitantes: </strong>{capa_col_info_2020$pobtot_pretty} personas
-  <br><strong>Mujeres: </strong>{capa_col_info_2020$mujeres}%
-  <br><strong>Hombres: </strong>{capa_col_info_2020$hombres}%
-  <br><strong>Menos de 18 años: </strong>{capa_col_info_2020$menores}%
-  <br><strong>18-59 años: </strong>{capa_col_info_2020$adultos_nmay}%
-  <br><strong>60 y más años: </strong>{capa_col_info_2020$adultos_may}%
-  <br><strong>Escolaridad promedio: </strong>{capa_col_info_2020$graproes} años
+  <br><strong>Mujeres: </strong>{capa_col_info_2020$mujeres}
+  <br><strong>Hombres: </strong>{capa_col_info_2020$hombres}
+  <br><strong>Menos de 18 años: </strong>{capa_col_info_2020$menores}
+  <br><strong>18-59 años: </strong>{capa_col_info_2020$adultos_nmay}
+  <br><strong>60 y más años: </strong>{capa_col_info_2020$adultos_may}
+  <br><strong>Escolaridad promedio: </strong>{capa_col_info_2020$graproes}
   <br><strong>www.sonoraendatos.com</strong>"
 )
 
