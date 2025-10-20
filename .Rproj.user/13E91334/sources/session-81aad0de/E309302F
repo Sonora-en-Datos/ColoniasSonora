@@ -3,7 +3,7 @@
     "path": "D:/lmoreno/OneDrive/R/ColoniasSonora/ColoniasSonora/script/Colonias_Sonora_Escolaridad.R",
     "project_path": "script/Colonias_Sonora_Escolaridad.R",
     "type": "r_source",
-    "hash": "3632700903",
+    "hash": "2478157215",
     "contents": "",
     "dirty": false,
     "created": 1760986288270.0,
@@ -12,15 +12,15 @@
     "properties": {
         "source_window_id": "",
         "Source": "Source",
-        "cursorPosition": "241,0",
-        "scrollLine": "213"
+        "cursorPosition": "22,67",
+        "scrollLine": "23"
     },
     "folds": "",
-    "lastKnownWriteTime": 1760998010,
+    "lastKnownWriteTime": 1760998207,
     "encoding": "UTF-8",
     "collab_server": "",
     "source_window": "",
-    "last_content_update": 1760998010713,
+    "last_content_update": 1760998207275,
     "read_only": false,
     "read_only_alternatives": []
 }

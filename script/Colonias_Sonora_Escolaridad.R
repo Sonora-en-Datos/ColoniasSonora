@@ -118,11 +118,11 @@ colonias_estatal <- censoagebsonora2020 %>%
   mutate(pobtot_pretty= prettyNum(pobtot, big.mark=",",scientific=FALSE),
          vivtot_pretty= prettyNum(vivtot, big.mark=",",scientific=FALSE),
          agregado=mujeres+hombres) %>% 
-  mutate(hombres=as.character(if_else(agregado==0, "N/D", paste0(hombres,"%"))),
-         mujeres=as.character(if_else(agregado==0, "N/D", paste0(mujeres,"%"))),
-         menores=as.character(if_else(agregado==0, "N/D", paste0(menores,"%"))),
-         adultos_nmay=as.character(if_else(agregado==0, "N/D", paste0(adultos_nmay,"%"))),
-         adultos_may=as.character(if_else(agregado==0, "N/D", paste0(adultos_may,"%")))
+  mutate(hombres=as.character(if_else(agregado==0, "NA", paste0(hombres,"%"))),
+         mujeres=as.character(if_else(agregado==0, "NA", paste0(mujeres,"%"))),
+         menores=as.character(if_else(agregado==0, "NA", paste0(menores,"%"))),
+         adultos_nmay=as.character(if_else(agregado==0, "NA", paste0(adultos_nmay,"%"))),
+         adultos_may=as.character(if_else(agregado==0, "NA", paste0(adultos_may,"%")))
          ) %>% 
   select(cve_col, nom_col,nom_loc, vivtot,pobtot, mujeres, hombres, menores, adultos_nmay, adultos_may, graproes,pobtot_pretty,vivtot_pretty, agregado)
 
@@ -161,7 +161,7 @@ capa_col_info_2020 <- capa_col %>%
                            graproes>=15 & graproes<18 ~ "#368990",
                            graproes>=18  ~ "#376795")
          ) %>% 
-           mutate(graproes=as.character(if_else(agregado==0, "N/D", paste0(graproes," años")))
+           mutate(graproes=as.character(if_else(agregado==0, "NA", paste0(graproes," años")))
   )
 
 
@@ -199,7 +199,7 @@ q_class <- step_equal_interval(
 
 
 colonias_info_2020 <- maplibre(center = c(  -109.94079,27.48642),
-                               zoom = 10,
+                               zoom = 11,
                                style= carto_style("positron")
 ) %>% 
   add_fill_layer(
